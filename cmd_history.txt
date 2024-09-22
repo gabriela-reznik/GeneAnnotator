@@ -1,0 +1,19 @@
+conda create -n GeneAnnotator python=3.8
+conda activate GeneAnnotator
+
+wget https://ftp.ensembl.org/pub/grch37/current/variation/vep/homo_sapiens_vep_109_GRCh37.tar.gz
+tar kxzf homo_sapiens_vep_109_GRCh37.tar.gz
+
+docker pull ensemblorg/ensembl-vep
+docker run -it -v ./vep_run:/data ensemblorg/ensembl-vep
+docker run -it -v ./vep_run:/data 11f5f8f3f39f
+
+
+perl INSTALL.pl
+
+official
+time vep -i ../../../../data/NIST.vcf --assembly GRCh37 --fork 4 --cache --offline --dir_cache ../../../../data/ --af --vcf --no_stats --fields AF,Gene,SYMBOL,Existing_variation,AF -o ../../../../data/annotated_NIST.vcf 
+
+
+
+
