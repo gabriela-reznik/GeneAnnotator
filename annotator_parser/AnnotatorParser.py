@@ -62,11 +62,9 @@ class AnnotatorParser:
 
     def add_DP_column(self) -> None:
         """
-        Add the DP information from original vcf FORMAT field to a column for future filtering. It assumes this is the third information in the FORMAT field.
+        Add the DP information from original vcf INFO field to a column for future filtering.
         """
-        self.parsed_annotation_content["DP"] = self.parsed_annotation_content[
-            "NIST-hg001-7001"
-        ].apply(lambda x: x.split(":")[2])
+        self.parsed_annotation_content["DP"] = self.parsed_annotation_content["INFO"].apply(lambda x: re.search(r"DP=(\d+)", x).group(1) if re.search(r"DP=(\d+)", x) else None)
 
     def export_parsed_information(self, output_path: Path) -> None:
         self.parsed_information.to_csv(output_path, sep="\t", index=False)
