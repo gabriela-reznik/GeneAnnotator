@@ -1,0 +1,5 @@
+rule parse_annotation:
+    input: vcf = "/gene_annotator/NIST.vcf"
+    output: file = "/gene_annotator/annotated_NIST.vcf" 
+    params: vep = "--assembly GRCh37 --fork 4 --cache --offline --dir_cache /gene_annotator/vep_cache/ --af --vcf --no_stats --fields AF,Gene,SYMBOL,Existing_variation,AF"
+    shell: "../src/ensembl-vep/vep -i {input.vcf} {params.vep} -o {output.file}"

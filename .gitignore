@@ -5,3 +5,4 @@ __pycache__/
 # vep_run
 vep_run/
 old/
+.snakemake/

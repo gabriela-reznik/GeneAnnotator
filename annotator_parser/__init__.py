@@ -1,1 +1,0 @@
-from .AnnotatorParser import AnnotatorParser
