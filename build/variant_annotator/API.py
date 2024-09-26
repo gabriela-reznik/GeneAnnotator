@@ -29,8 +29,8 @@ def getData():
         )
         # printing and saving query for convenience
         print(filtered_data_df)
-        filtered_data_df.to_csv(f"gene_annotator/csv_filtered_data.csv", index=False)
-        with open(f"gene_annotator/filtered_data_dict.json", "w") as f:
+        filtered_data_df.to_csv(f"variant_annotator/csv_filtered_data.csv", index=False)
+        with open(f"variant_annotator/json_filtered_data.json", "w") as f:
             json.dump(filtered_data_dict, f)
 
         return filtered_data_dict

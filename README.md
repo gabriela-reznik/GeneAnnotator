@@ -1,4 +1,4 @@
-# GeneAnnotator
+# VariantAnnotator
 This repository contains an implementation of a bioinformatics pipeline that performs, based on the provided VCF file, the annotation of variants with gene, dbSNP ID, and frequency from at least one population database. Result is delivered through an API and an interactive web interface (Flask) that interacts with the API to filter variants by frequency and depth (DP).
 
 
@@ -14,33 +14,27 @@ This repository contains an implementation of a bioinformatics pipeline that per
 
 ### 1. Download git repository:
 ```
-$git clone https://github.com/gabriela-reznik/GeneAnnotator.git
+$ git clone https://github.com/gabriela-reznik/VariantAnnotator.git
 ```
 
 ### 2. Build application (This will take several minutes)
 ```
-$ cd git/build
-$ docker build --platform=linux/amd64 -t gene-annotator:latest .
+$ cd VariantAnnotator/build
+$ docker build --platform=linux/amd64 -t variant-annotator:latest .
 ```
 
-### 3. Create a folder to get results and run docker detached with it mounted. Note that you can also run it without mount if you don't want to recover any files.
+### 3. Create a folder to get results and run docker interactive with it mounted. Note that you can also run it without mount if you don't want to recover any files.
 
 ```
 $ mkdir results && cd results
-$ docker run -d -i --name gene-annotator-p 8000:8000 -v .:/data -w / gene-annotator
-```
-
-If you prefer, you can also run it interactively by using 
-
-```
-$ docker run -it -p 8000:8000 -v .:/data -w / gene-annotator
+$ docker run -it -p 8000:8000 -v .:/data -w / variant-annotator
 ```
 
 ### 4. Run everything you need inside that docker
 
-* **Run snakemake** (This can take some minutes). You're ready for next step once you can see `Serving Flask app 'API'` in the LOG.
+* **Run(exec) snakemake** (This can take some minutes). You're ready for next step once you can see `Serving Flask app 'API'` in the LOG.
 ```
-$ docker run gene-annotator snakemake all -s /gene_annotator/Snakefile 
+/# snakemake all -s /variant_annotator/Snakefile 
 ```
 
 * **Finally filter data**
@@ -59,22 +53,22 @@ query is expected to follow the model
 
 This means you can filter data by "DP" or "AF_1000_genomes", choose between operations "bigger_than", "smaller_than" or "equal" and provide a numerical value for the filtering.
 
-the parsed url should look like:
+Example usage:
 `http://localhost:8000/getData?filter_by=AF_1000_genomes&operation=equal&value=0.5`
 
 You'll be able to see the filtered data in your terminal and in the navigator. Output files are also available.
 
-* To quit the API press CTRL+C or CMD+C
+* To quit the API press CTRL+C
 
 ### 6. Optional - exporting filtered data and intermediate files
 ```
-$ docker run gene-annotator mv gene_annotator/NIST.vcf gene_annotator/annotated_NIST.vcf gene_annotator/parsed_annotation.csv \
-  gene_annotator/csv_filtered_data.csv gene_annotator/filtered_data_dict.json data
+/# cp variant_annotator/NIST.vcf variant_annotator/annotated_NIST.vcf variant_annotator/parsed_annotation.csv variant_annotator/csv_filtered_data.csv variant_annotator/filtered_data_dict.json data
 ``` 
 All files should be now in your local machine results/ directory.
 
 ### 7. Stop and remove docker container
 ```
-$ docker stop gene-annotator
-$ docker rm gene-annotator
+/# exit
+$ docker stop variant-annotator
+$ docker rm variant-annotator
 ```

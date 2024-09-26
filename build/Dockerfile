@@ -28,8 +28,8 @@ RUN mamba install -c conda-forge -c bioconda snakemake
 RUN pip3 install --no-cache-dir pandas Flask flask-restful snakemake
 
 # get vep cache now so that run is faster
-RUN mkdir -p /gene_annotator/vep_cache
-RUN cd /gene_annotator/vep_cache && \
+RUN mkdir -p /variant_annotator/vep_cache
+RUN cd /variant_annotator/vep_cache && \
 wget --progress=bar:force:noscroll https://ftp.ensembl.org/pub/grch37/release-112/variation/indexed_vep_cache/homo_sapiens_vep_112_GRCh37.tar.gz && \
 tar -xzf homo_sapiens_vep_112_GRCh37.tar.gz && rm homo_sapiens_vep_112_GRCh37.tar.gz
 
@@ -37,7 +37,7 @@ tar -xzf homo_sapiens_vep_112_GRCh37.tar.gz && rm homo_sapiens_vep_112_GRCh37.ta
 EXPOSE 8000
 
 # Copy application
-COPY gene_annotator /gene_annotator
+COPY variant_annotator /variant_annotator
 
 # Set working directory
 WORKDIR /

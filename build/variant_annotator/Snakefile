@@ -1,0 +1,20 @@
+rule all:
+    input: "variant_annotator/csv_filtered_data.csv"
+    input: "variant_annotator/json_filtered_data.json"
+
+rule run_vep:
+    input: vcf = "variant_annotator/NIST.vcf"
+    output: file = "variant_annotator/annotated_NIST.vcf" 
+    params: vep = "--assembly GRCh37 --fork 4 --cache --offline --dir_cache /variant_annotator/vep_cache/ --af --vcf --no_stats --fields AF,Gene,SYMBOL,Existing_variation,AF"
+    shell: "/opt/vep/src/ensembl-vep/vep -i {input.vcf} {params.vep} -o {output.file}"
+
+rule parse_annotation:
+    input: file = "variant_annotator/annotated_NIST.vcf" 
+    output: file = "variant_annotator/parsed_annotation.csv" 
+    shell: "python3 variant_annotator/annotator_parser/annotator_parser.py {input.file} {output.file}"
+
+rule run_API:
+    input: file = "variant_annotator/parsed_annotation.csv" 
+    output: csv = "variant_annotator/csv_filtered_data.csv",
+            json = "variant_annotator/json_filtered_data.json"
+    shell: "python3 variant_annotator/API.py {input.file}"
