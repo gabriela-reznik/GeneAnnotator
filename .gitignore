@@ -6,3 +6,5 @@ __pycache__/
 vep_run/
 old/
 .snakemake/
+
+cmd_backups.txt
