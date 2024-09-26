@@ -1,6 +1,6 @@
 rule all:
-    input: "variant_annotator/csv_filtered_data.csv"
-    input: "variant_annotator/json_filtered_data.json"
+    input: "variant_annotator/csv_filtered_data.csv",
+            "variant_annotator/json_filtered_data.json"
 
 rule run_vep:
     input: vcf = "variant_annotator/NIST.vcf"
@@ -18,3 +18,4 @@ rule run_API:
     output: csv = "variant_annotator/csv_filtered_data.csv",
             json = "variant_annotator/json_filtered_data.json"
     shell: "python3 variant_annotator/API.py {input.file}"
+    

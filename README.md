@@ -66,9 +66,7 @@ You'll be able to see the filtered data in your terminal and in the navigator. O
 ``` 
 All files should be now in your local machine results/ directory.
 
-### 7. Stop and remove docker container
+### 7. Exit interactive docker container
 ```
 /# exit
-$ docker stop variant-annotator
-$ docker rm variant-annotator
 ```
