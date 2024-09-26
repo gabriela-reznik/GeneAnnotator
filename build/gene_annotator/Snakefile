@@ -16,5 +16,5 @@ rule parse_annotation:
 rule run_API:
     input: file = "gene_annotator/parsed_annotation.csv" 
     output: csv = "gene_annotator/csv_filtered_data.csv",
-            json = "gene_annotator/json_filtered_data.json"
+            json = "gene_annotator/filtered_data_dict.json"
     shell: "python3 gene_annotator/API.py {input.file}"
