@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 class ApiProcessor:
     def invalid_filter_error(self, message) -> str:
         return f"Provided filter is invalid. {message}. Please provide a valid filter with the following components: filter_by, operation, value. Example usage: http://127.0.0.1:5000/getData?filter_by=AF_1000_genomes&operation=equal&value=0.5"
@@ -14,15 +15,15 @@ class ApiProcessor:
         for key in model:
             if key not in filter:
                 return self.invalid_filter_error(f"Missing key: {key}")
-            
+
         # Check if 'filter_by' is valid
         if filter["filter_by"] not in model["filter_by"]:
             return f"Invalid value in 'filter_by': {filter['filter_by']}"
-        
+
         # Check if 'operation' is valid
         if filter["operation"] not in model["operation"]:
             return f"Invalid value in 'operation': {filter['operation']}"
-        
+
         # Check if 'value' is of the correct type
         try:
             filter["value"] = float(filter["value"])

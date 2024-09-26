@@ -5,8 +5,9 @@ import re
 
 
 class AnnotatorParser:
-    def __init__(self, annotation: Path) -> None:
+    def __init__(self, annotation: Path, output_path: Path) -> None:
         self.annotation = annotation
+        self.output_path = output_path
         self.parsed_annotation_content = self.original_annotation_content
 
     @cached_property
@@ -64,8 +65,14 @@ class AnnotatorParser:
         """
         Add the DP information from original vcf INFO field to a column for future filtering.
         """
-        self.parsed_annotation_content["DP"] = self.parsed_annotation_content["INFO"].apply(lambda x: re.search(r"DP=(\d+)", x).group(1) if re.search(r"DP=(\d+)", x) else None)
+        self.parsed_annotation_content["DP"] = self.parsed_annotation_content[
+            "INFO"
+        ].apply(
+            lambda x: re.search(r"DP=(\d+)", x).group(1)
+            if re.search(r"DP=(\d+)", x)
+            else None
+        )
 
-    def export_parsed_information(self, output_path: Path) -> None:
-        self.parsed_information.to_csv(output_path, sep="\t", index=False)
-        print(f"Exported parsed information to {output_path}")
+    def export_parsed_information(self) -> None:
+        self.parsed_information.to_csv(self.output_path, sep="\t", index=False)
+        print(f"Exported parsed information to {self.output_path}")
